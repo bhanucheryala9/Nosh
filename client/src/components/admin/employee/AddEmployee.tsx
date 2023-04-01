@@ -99,6 +99,19 @@ const AddEmployee = (props: AddEmployeeProps) => {
       });
 
   };
+  return (
+    <React.Fragment>
+      <Modal
+        closeOnOverlayClick={false}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        size="2xl"
+      >
+        <ModalOverlay />
+        
+      </Modal>
+    </React.Fragment>
+  );
 
   
 
