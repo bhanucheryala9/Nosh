@@ -108,6 +108,32 @@ const AddEmployee = (props: AddEmployeeProps) => {
         size="2xl"
       >
         <ModalOverlay />
+        <form onSubmit={handleSubmit(onSubmitClicked)}>
+          <ModalContent>
+            <ModalHeader textColor={"orange.500"}>Add New Employee</ModalHeader>
+            <ModalCloseButton />
+            <Divider />
+            <ModalBody p={8}>
+              <Grid
+                templateRows="repeat(6, 1fr)"
+                templateColumns="repeat(2, 1fr)"
+                gap={4}
+              >
+                </Grid>
+                </ModalBody>
+                <Divider/>
+                <ModalFooter>
+              <FormControl>
+                <HStack float={"right"}>
+                  <Button onClick={() => setIsModalOpen(false)}>Cancel</Button>
+                  <Button colorScheme="orange" mr={3} type="submit">
+                    Save Employee Details
+                  </Button>
+                </HStack>
+              </FormControl>
+            </ModalFooter>
+          </ModalContent>
+        </form>
         
       </Modal>
     </React.Fragment>
