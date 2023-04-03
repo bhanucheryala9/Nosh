@@ -119,6 +119,48 @@ const AddEmployee = (props: AddEmployeeProps) => {
                 templateColumns="repeat(2, 1fr)"
                 gap={4}
               >
+                <GridItem rowSpan={1} colSpan={1}>
+                  <FormControl isInvalid={!!errors["firstName"]}>
+                    
+                    <Input
+                      type={"text"}
+                      {...register("firstName", {
+                        required: "First Name is required",
+                      })}
+                      onChange={(e) => {
+                        const userData = {
+                          ...formData,
+                          firstName: e.target.value,
+                        };
+                        setFormData(userData as any);
+                      }}
+                    />
+                    <FormErrorMessage>
+                      {errors["firstName"]?.message as string}
+                    </FormErrorMessage>
+                  </FormControl>
+                </GridItem>
+                <GridItem rowSpan={1} colSpan={1}>
+                  <FormControl isInvalid={!!errors["lastName"]}>
+                    
+                    <Input
+                      type={"text"}
+                      {...register("lastName", {
+                        required: "Last Name is required",
+                      })}
+                      onChange={(e) => {
+                        const userData = {
+                          ...formData,
+                          lastName: e.target.value,
+                        };
+                        setFormData(userData as any);
+                      }}
+                    />
+                    <FormErrorMessage>
+                      {errors["lastName"]?.message as string}
+                    </FormErrorMessage>
+                  </FormControl>
+                </GridItem>
                 </Grid>
                 </ModalBody>
                 <Divider/>
