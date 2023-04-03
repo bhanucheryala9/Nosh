@@ -121,7 +121,14 @@ const AddEmployee = (props: AddEmployeeProps) => {
               >
                 <GridItem rowSpan={1} colSpan={1}>
                   <FormControl isInvalid={!!errors["firstName"]}>
-                    
+                  <FormLabel
+                      id="firstName"
+                      fontSize={"xs"}
+                      textColor="gray.600"
+                      fontWeight={"semibold"}
+                    >
+                      First Name:
+                    </FormLabel>
                     <Input
                       type={"text"}
                       {...register("firstName", {
@@ -142,7 +149,13 @@ const AddEmployee = (props: AddEmployeeProps) => {
                 </GridItem>
                 <GridItem rowSpan={1} colSpan={1}>
                   <FormControl isInvalid={!!errors["lastName"]}>
-                    
+                  <FormLabel
+                      fontSize={"xs"}
+                      textColor="gray.600"
+                      fontWeight={"semibold"}
+                    >
+                      Last Name:
+                    </FormLabel>
                     <Input
                       type={"text"}
                       {...register("lastName", {
