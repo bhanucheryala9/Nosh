@@ -174,6 +174,73 @@ const AddEmployee = (props: AddEmployeeProps) => {
                     </FormErrorMessage>
                   </FormControl>
                 </GridItem>
+                <GridItem rowSpan={1} colSpan={2}>
+                  <FormControl>
+                    <FormLabel
+                      fontSize={"xs"}
+                      textColor="gray.600"
+                      fontWeight={"semibold"}
+                    >
+                      Employee Type:
+                    </FormLabel>
+                    <Select
+                      placeholder="Select option"
+                      {...register("employeeType", {
+                        required: "Employee is required",
+                      })}
+                      onChange={(e) => {
+                        const userData = {
+                          ...formData,
+                          type: "employee",
+                          subtype: e.target.value,
+                        };
+                        setFormData(userData as any);
+                      }}
+                    >
+                      <option value="manager" style={{ padding: "0 10px" }}>
+                        Manager
+                      </option>
+                      <option value="employee" style={{ padding: "0 10px" }}>
+                        Employee
+                      </option>
+                    </Select>
+                  </FormControl>
+                </GridItem>
+                <GridItem rowSpan={1} colSpan={2}>
+                  <FormControl isInvalid={!!errors["salary"]}>
+                    <FormLabel
+                      fontSize={"xs"}
+                      textColor="gray.600"
+                      fontWeight={"semibold"}
+                    >
+                      Salary:
+                    </FormLabel>
+                    <InputGroup>
+                      <InputLeftElement
+                        pointerEvents="none"
+                        color="gray.300"
+                        fontSize="1.2em"
+                        children="$"
+                      />
+                      <Input
+                        placeholder="Enter amount"
+                        {...register("salary", {
+                          required: "Salary is required",
+                        })}
+                        onChange={(e) => {
+                          const userData = {
+                            ...formData,
+                            salary: e.target.value,
+                          };
+                          setFormData(userData as any);
+                        }}
+                      />
+                    </InputGroup>
+                    <FormErrorMessage>
+                      {errors["salary"]?.message as string}
+                    </FormErrorMessage>
+                  </FormControl>
+                </GridItem>
                 </Grid>
                 </ModalBody>
                 <Divider/>
