@@ -28,40 +28,75 @@ import { useAuth } from "../../../contexts/AuthContext";
 import { useNotification } from "../../../contexts/Notification";
 import { EmployeeRequestPayload, NotificationStatus } from "../../common/utils";
 
-};
 interface AddEmployeeProps {
   isModalOpen: boolean;
   setIsModalOpen: (isModalOpen: boolean) => void;
   children?: ReactNode;
+  defaultData?: any;
+  isUpdate: boolean;
+  setIsUpdate: React.Dispatch<React.SetStateAction<boolean>>
 }
+
 const AddEmployee = (props: AddEmployeeProps) => {
-  const { isModalOpen, setIsModalOpen } = props;
+  const { isModalOpen, setIsModalOpen, defaultData, isUpdate, setIsUpdate } = props;
   const { signUp } = useAuth();
   const { setShowNotification } = useNotification();
-
   const [formData, setFormData] = useState<EmployeeRequestPayload>();
   const {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm();
+    getValues,
+  } = useForm({
+    defaultValues: {
+      firstName: defaultData?.firstName,
+      lastName: defaultData?.lastName,
+      email: defaultData?.email,
+      phone: defaultData?.phoneNumber,
+      employeeType: defaultData?.subtype,
+      salary: defaultData?.salary,
+      addressLine1: defaultData?.address.addressLine1,
+      addressLine2: defaultData?.address.addressLine1,
+      city: defaultData?.address.city,
+      state: defaultData?.address.state,
+      about: defaultData?.about,
+    },
+
+  });
+  const prepareData = () => {
+    const formattedData = {
+      firstName: defaultData.firstName,
+      lastName: defaultData.lastName,
+      email: defaultData.email,
+      phone: defaultData.phoneNumber,
+      subtype: defaultData.subtype,
+      type: defaultData.type,
+      salary: defaultData.salary,
+      address: defaultData.address,
+      about: defaultData.about,
+    };
+    return formattedData;
+  };
 
   const onSubmitClicked = (data: any) => {
     let formattedData = formData;
-    formattedData = {
-      ...formattedData,
-      id:
-        formattedData &&
-        formattedData?.firstName[0] +
-          formattedData?.lastName[0] +
-          Math.floor(Math.random() * 90000) +
-          10000,
-      joinedDate: Date.now(),
-      address: {
-        ...formattedData?.address,
-        zipcode: "12208",
-      },
-    } as any;
+    if (!isUpdate) {
+      formattedData = {
+        ...formattedData,
+        id: (
+          formattedData &&
+          formattedData?.firstName[0] +
+            formattedData?.lastName[0] +
+            Math.floor(Math.random() * 90000) +
+            10000
+        )?.toLowerCase(),
+        joinedDate: Date.now(),
+        credits: 0,
+        address: {
+          ...formattedData?.address,
+          zipcode: "12208",
+        },
+      } as any;
 
     axios
       .post("http://localhost:5000/api/admin/add-employee", formattedData)
