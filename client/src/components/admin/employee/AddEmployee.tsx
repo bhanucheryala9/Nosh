@@ -127,13 +127,38 @@ const AddEmployee = (props: AddEmployeeProps) => {
             showAlert: true,
           });
         }
-
-
       })
       .catch((error) => {
+        console.log("failed to create")
+          setIsModalOpen(false);
+          setIsUpdate(false);
       });
 
-  };
+  }else {
+    const preparedUserData = prepareData();
+    formattedData = {
+      id: defaultData.id as string,
+      ...preparedUserData,
+      ...formData,
+    } as any;
+    axios
+      .put(
+        "http://localhost:5000/api/admin/v1/update-employee",
+        formattedData
+      )
+      .then((response) => {
+        setIsModalOpen(false);
+        setIsUpdate(false);
+      })
+      .catch((error) => {
+        console.log("Failed to update data");
+        setIsModalOpen(false);
+        setIsUpdate(false);
+
+      });
+  }
+};
+
   return (
     <React.Fragment>
       <Modal
