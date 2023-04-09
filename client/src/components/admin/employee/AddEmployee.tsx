@@ -179,7 +179,7 @@ const AddEmployee = (props: AddEmployeeProps) => {
                 templateColumns="repeat(2, 1fr)"
                 gap={4}
               >
-               <GridItem rowSpan={1} colSpan={1}>
+                <GridItem rowSpan={1} colSpan={1}>
                   <FormControl isInvalid={!!errors["firstName"]}>
                     <FormLabel
                       id="firstName"
@@ -361,6 +361,62 @@ const AddEmployee = (props: AddEmployeeProps) => {
                     </FormErrorMessage>
                   </FormControl>
                 </GridItem>
+                <GridItem rowSpan={1} colSpan={2}>
+                  <FormControl isInvalid={!!errors["addressLine1"]}>
+                    <FormLabel
+                      fontSize={"xs"}
+                      textColor="gray.600"
+                      fontWeight={"semibold"}
+                    >
+                      Address Line 1:
+                    </FormLabel>
+                    <Input
+                      {...register("addressLine1", {
+                        required: "Address Line1 is required",
+                      })}
+                      defaultValue={defaultData?.address.addressLine1}
+                      onChange={(e) => {
+                        const userData = {
+                          ...formData,
+                          address: {
+                            ...formData?.address,
+                            addressLine1: e.target.value,
+                          },
+                        };
+                        setFormData(userData as any);
+                      }}
+                    />
+                    <FormErrorMessage>
+                      {errors["addressLine1"]?.message as string}
+                    </FormErrorMessage>
+                  </FormControl>
+                </GridItem>
+                <GridItem rowSpan={1} colSpan={2}>
+                  <FormControl>
+                    <FormLabel
+                      fontSize={"xs"}
+                      textColor="gray.600"
+                      fontWeight={"semibold"}
+                    >
+                      Address Line 2:
+                    </FormLabel>
+                    <Input
+                      {...register("addressLine2")}
+                      defaultValue={defaultData?.address.addressLine2}
+                      onChange={(e) => {
+                        const userData = {
+                          ...formData,
+                          address: {
+                            ...formData?.address,
+                            addressLine2: e.target.value,
+                          },
+                        };
+                        setFormData(userData as any);
+                      }}
+                    />
+                  </FormControl>
+                </GridItem>
+                </Grid>
                 </ModalBody>
                 <Divider/>
                 <ModalFooter>
