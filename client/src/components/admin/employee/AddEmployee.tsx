@@ -179,9 +179,9 @@ const AddEmployee = (props: AddEmployeeProps) => {
                 templateColumns="repeat(2, 1fr)"
                 gap={4}
               >
-                <GridItem rowSpan={1} colSpan={1}>
+               <GridItem rowSpan={1} colSpan={1}>
                   <FormControl isInvalid={!!errors["firstName"]}>
-                  <FormLabel
+                    <FormLabel
                       id="firstName"
                       fontSize={"xs"}
                       textColor="gray.600"
@@ -194,6 +194,7 @@ const AddEmployee = (props: AddEmployeeProps) => {
                       {...register("firstName", {
                         required: "First Name is required",
                       })}
+                      defaultValue={defaultData?.firstName}
                       onChange={(e) => {
                         const userData = {
                           ...formData,
@@ -209,7 +210,7 @@ const AddEmployee = (props: AddEmployeeProps) => {
                 </GridItem>
                 <GridItem rowSpan={1} colSpan={1}>
                   <FormControl isInvalid={!!errors["lastName"]}>
-                  <FormLabel
+                    <FormLabel
                       fontSize={"xs"}
                       textColor="gray.600"
                       fontWeight={"semibold"}
@@ -221,6 +222,7 @@ const AddEmployee = (props: AddEmployeeProps) => {
                       {...register("lastName", {
                         required: "Last Name is required",
                       })}
+                      defaultValue={defaultData?.lastName}
                       onChange={(e) => {
                         const userData = {
                           ...formData,
@@ -231,6 +233,62 @@ const AddEmployee = (props: AddEmployeeProps) => {
                     />
                     <FormErrorMessage>
                       {errors["lastName"]?.message as string}
+                    </FormErrorMessage>
+                  </FormControl>
+                </GridItem>
+                <GridItem rowSpan={1} colSpan={2}>
+                  <FormControl isInvalid={!!errors["email"]}>
+                    <FormLabel
+                      fontSize={"xs"}
+                      textColor="gray.600"
+                      fontWeight={"semibold"}
+                    >
+                      Email:
+                    </FormLabel>
+                    <Input
+                      type={"email"}
+                      {...register("email", {
+                        required: "Email is required",
+                      })}
+                      defaultValue={defaultData?.email}
+                      onChange={(e) => {
+                        const userData = {
+                          ...formData,
+                          email: e.target.value,
+                        };
+                        setFormData(userData as any);
+                      }}
+                    />
+                    <FormErrorMessage>
+                      {errors["email"]?.message as string}
+                    </FormErrorMessage>
+                  </FormControl>
+                </GridItem>
+                <GridItem rowSpan={1} colSpan={2}>
+                  <FormControl isInvalid={!!errors["phone"]}>
+                    <FormLabel
+                      fontSize={"xs"}
+                      textColor="gray.600"
+                      fontWeight={"semibold"}
+                    >
+                      Mobile Number:
+                    </FormLabel>
+                    <Input
+                      type={"number"}
+                      {...register("phone", {
+                        required: "Mobile Number is required",
+                      })}
+                      defaultValue={defaultData?.phoneNumber}
+                      onChange={(e) => {
+                        const userData = {
+                          ...formData,
+                          phoneNumber: e.target.value,
+                        };
+                        setFormData(userData as any);
+                      }}
+                    />
+                    <FormErrorMessage>
+                      {errors["phone"]?.message as string}
                     </FormErrorMessage>
                   </FormControl>
                 </GridItem>
@@ -248,6 +306,7 @@ const AddEmployee = (props: AddEmployeeProps) => {
                       {...register("employeeType", {
                         required: "Employee is required",
                       })}
+                      defaultValue={defaultData?.subtype}
                       onChange={(e) => {
                         const userData = {
                           ...formData,
@@ -287,6 +346,7 @@ const AddEmployee = (props: AddEmployeeProps) => {
                         {...register("salary", {
                           required: "Salary is required",
                         })}
+                        defaultValue={defaultData?.salary}
                         onChange={(e) => {
                           const userData = {
                             ...formData,
@@ -301,7 +361,6 @@ const AddEmployee = (props: AddEmployeeProps) => {
                     </FormErrorMessage>
                   </FormControl>
                 </GridItem>
-                </Grid>
                 </ModalBody>
                 <Divider/>
                 <ModalFooter>
