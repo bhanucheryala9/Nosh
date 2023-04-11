@@ -179,7 +179,7 @@ const AddEmployee = (props: AddEmployeeProps) => {
                 templateColumns="repeat(2, 1fr)"
                 gap={4}
               >
-                <GridItem rowSpan={1} colSpan={1}>
+ <GridItem rowSpan={1} colSpan={1}>
                   <FormControl isInvalid={!!errors["firstName"]}>
                     <FormLabel
                       id="firstName"
@@ -446,6 +446,60 @@ const AddEmployee = (props: AddEmployeeProps) => {
                     </FormErrorMessage>
                   </FormControl>
                 </GridItem>
+                <GridItem rowSpan={1} colSpan={1}>
+                  <FormControl isInvalid={!!errors["state"]}>
+                    <FormLabel
+                      fontSize={"xs"}
+                      textColor="gray.600"
+                      fontWeight={"semibold"}
+                    >
+                      State:
+                    </FormLabel>
+                    <Input
+                      {...register("state", {
+                        required: "State is required",
+                      })}
+                      defaultValue={defaultData?.address.state}
+                      onChange={(e) => {
+                        const userData = {
+                          ...formData,
+                          address: {
+                            ...formData?.address,
+                            state: e.target.value,
+                          },
+                        };
+                        setFormData(userData as any);
+                      }}
+                    />
+                    <FormErrorMessage>
+                      {errors["state"]?.message as string}
+                    </FormErrorMessage>
+                  </FormControl>
+                </GridItem>
+                <GridItem rowSpan={1} colSpan={2}>
+                  <FormControl>
+                    <FormLabel
+                      fontSize={"xs"}
+                      textColor="gray.600"
+                      fontWeight={"semibold"}
+                    >
+                      About You:
+                    </FormLabel>
+                    <Textarea
+                      placeholder="write short discription about you.."
+                      {...register("about")}
+                      defaultValue={defaultData?.about}
+                      onChange={(e) => {
+                        const userData = {
+                          ...formData,
+                          about: e.target.value,
+                        };
+                        setFormData(userData as any);
+                      }}
+                    />
+                  </FormControl>
+                </GridItem>
+              </Grid>
                 </Grid>
                 </ModalBody>
                 <Divider/>
