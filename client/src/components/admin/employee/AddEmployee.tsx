@@ -416,6 +416,36 @@ const AddEmployee = (props: AddEmployeeProps) => {
                     />
                   </FormControl>
                 </GridItem>
+                <GridItem rowSpan={1} colSpan={1}>
+                  <FormControl isInvalid={!!errors["city"]}>
+                    <FormLabel
+                      fontSize={"xs"}
+                      textColor="gray.600"
+                      fontWeight={"semibold"}
+                    >
+                      City:
+                    </FormLabel>
+                    <Input
+                      {...register("city", {
+                        required: "City is required",
+                      })}
+                      defaultValue={defaultData?.address.city}
+                      onChange={(e) => {
+                        const userData = {
+                          ...formData,
+                          address: {
+                            ...formData?.address,
+                            city: e.target.value,
+                          },
+                        };
+                        setFormData(userData as any);
+                      }}
+                    />
+                    <FormErrorMessage>
+                      {errors["city"]?.message as string}
+                    </FormErrorMessage>
+                  </FormControl>
+                </GridItem>
                 </Grid>
                 </ModalBody>
                 <Divider/>
