@@ -36,7 +36,6 @@ interface AddEmployeeProps {
   isUpdate: boolean;
   setIsUpdate: React.Dispatch<React.SetStateAction<boolean>>
 }
-
 const AddEmployee = (props: AddEmployeeProps) => {
   const { isModalOpen, setIsModalOpen, defaultData, isUpdate, setIsUpdate } = props;
   const { signUp } = useAuth();
@@ -61,8 +60,8 @@ const AddEmployee = (props: AddEmployeeProps) => {
       state: defaultData?.address.state,
       about: defaultData?.about,
     },
-
   });
+
   const prepareData = () => {
     const formattedData = {
       firstName: defaultData.firstName,
@@ -80,6 +79,7 @@ const AddEmployee = (props: AddEmployeeProps) => {
 
   const onSubmitClicked = (data: any) => {
     let formattedData = formData;
+
     if (!isUpdate) {
       formattedData = {
         ...formattedData,
@@ -97,67 +97,64 @@ const AddEmployee = (props: AddEmployeeProps) => {
           zipcode: "12208",
         },
       } as any;
-
-    axios
-      .post("http://localhost:5000/api/admin/add-employee", formattedData)
-      .then((response) => {
-
-        try {
-          signUp(formattedData?.email, "Nosh@123")
-            .then((res: any) => {
-              setShowNotification({
-                status: NotificationStatus.SUCCESS,
-                alertMessage: "employee account successfully created..!",
-                showAlert: true,
+      axios
+        .post("http://localhost:5000/api/admin/v1/add-employee", formattedData)
+        .then((response) => {
+          try {
+            signUp(formattedData?.email, "Nosh@123")
+              .then((res: any) => {
+                setShowNotification({
+                  status: NotificationStatus.SUCCESS,
+                  alertMessage: "employee account successfully created..!",
+                  showAlert: true,
+                });
+                setIsModalOpen(false);
+              })
+              .catch((error: any) => {
+                setShowNotification({
+                  status: NotificationStatus.ERROR,
+                  alertMessage: "Failed to create employee login..!",
+                  showAlert: true,
+                });
+                setIsModalOpen(false);
               });
-              setIsModalOpen(false);
-            })
-            .catch((error: any) => {
-              setShowNotification({
-                status: NotificationStatus.ERROR,
-                alertMessage: "Failed to create employee login..!",
-                showAlert: true,
-              });
-              setIsModalOpen(false);
+          } catch {
+            setShowNotification({
+              status: NotificationStatus.ERROR,
+              alertMessage: "Failed to create employee login..!",
+              showAlert: true,
             });
-        } catch {
-          setShowNotification({
-            status: NotificationStatus.ERROR,
-            alertMessage: "Failed to create employee login..!",
-            showAlert: true,
-          });
-        }
-      })
-      .catch((error) => {
-        console.log("failed to create")
+          }
+        })
+        .catch((error) => {
+          console.log("failed to create")
           setIsModalOpen(false);
           setIsUpdate(false);
-      });
+        });
+    } else {
+      const preparedUserData = prepareData();
+      formattedData = {
+        id: defaultData.id as string,
+        ...preparedUserData,
+        ...formData,
+      } as any;
+      axios
+        .put(
+          "http://localhost:5000/api/admin/v1/update-employee",
+          formattedData
+        )
+        .then((response) => {
+          setIsModalOpen(false);
+          setIsUpdate(false);
+        })
+        .catch((error) => {
+          console.log("Failed to update data");
+          setIsModalOpen(false);
+          setIsUpdate(false);
 
-  }else {
-    const preparedUserData = prepareData();
-    formattedData = {
-      id: defaultData.id as string,
-      ...preparedUserData,
-      ...formData,
-    } as any;
-    axios
-      .put(
-        "http://localhost:5000/api/admin/v1/update-employee",
-        formattedData
-      )
-      .then((response) => {
-        setIsModalOpen(false);
-        setIsUpdate(false);
-      })
-      .catch((error) => {
-        console.log("Failed to update data");
-        setIsModalOpen(false);
-        setIsUpdate(false);
-
-      });
-  }
-};
+        });
+    }
+  };
 
   return (
     <React.Fragment>
@@ -179,7 +176,7 @@ const AddEmployee = (props: AddEmployeeProps) => {
                 templateColumns="repeat(2, 1fr)"
                 gap={4}
               >
- <GridItem rowSpan={1} colSpan={1}>
+                <GridItem rowSpan={1} colSpan={1}>
                   <FormControl isInvalid={!!errors["firstName"]}>
                     <FormLabel
                       id="firstName"
@@ -500,10 +497,9 @@ const AddEmployee = (props: AddEmployeeProps) => {
                   </FormControl>
                 </GridItem>
               </Grid>
-                </Grid>
-                </ModalBody>
-                <Divider/>
-                <ModalFooter>
+            </ModalBody>
+            <Divider />
+            <ModalFooter>
               <FormControl>
                 <HStack float={"right"}>
                   <Button onClick={() => setIsModalOpen(false)}>Cancel</Button>
@@ -515,11 +511,9 @@ const AddEmployee = (props: AddEmployeeProps) => {
             </ModalFooter>
           </ModalContent>
         </form>
-        
       </Modal>
     </React.Fragment>
   );
-
-  
+};
 
 export default AddEmployee;
