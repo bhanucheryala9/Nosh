@@ -59,3 +59,29 @@ const Inventory = () => {
     }, []);
     return formattedData;
   };
+
+  
+  const onDeleteClicked = (data: any) => {
+    console.log(" data for deleteinh", data);
+    axios
+      .delete("http://localhost:5000/api/admin/v1/delete-item", {
+        params: {
+          id: data.id,
+        },
+      })
+      .then((response: any) => {
+        setInventoryData(prepareData(response.data.items));
+        setShowNotification({
+          status: NotificationStatus.SUCCESS,
+          alertMessage: "Successfully deleted item!",
+          showAlert: true,
+        });
+      })
+      .catch(() => {
+        setShowNotification({
+          status: NotificationStatus.ERROR,
+          alertMessage: "Failed to retreive items information..!",
+          showAlert: true,
+        });
+      });
+  };
