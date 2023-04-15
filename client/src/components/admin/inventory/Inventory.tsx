@@ -85,3 +85,97 @@ const Inventory = () => {
         });
       });
   };
+
+    // const getActualData = (data:any) =>{
+  //   const userData  =  unformattedEmployeeData.filter((item:any)=> item.id.toLowerCase()=== data.id.toLowerCase());
+  //   return userData[0];
+  // }
+  const onUpdateClicked = (data: any) => {
+    setToUpdateData(data);
+    setForUpdate(true);
+    setAppStoreData({
+      ...AppStoreData,
+      inventoryData: {
+        inventoryUpdateData: data,
+        forUpdate: true,
+      },
+    });
+    navigate("/add-inventory");
+  };
+
+  const columns: ColumnsType<InventoryColumns> = [
+    {
+      title: "Product Name",
+      dataIndex: "productName",
+    },
+    {
+      title: "Description",
+      dataIndex: "description",
+    },
+    {
+      title: "Price",
+      dataIndex: "price",
+    },
+    {
+      title: "Discount %",
+      dataIndex: "discount",
+    },
+    {
+      title: "Is Available",
+      dataIndex: "isAvailable",
+      render: (text) => (
+        <>
+          {text ? (
+            <Tag
+              size={"md"}
+              key={"yes"}
+              borderRadius="full"
+              variant="solid"
+              colorScheme="green"
+              p="1"
+            >
+              <TagLabel mx="4">Yes</TagLabel>
+            </Tag>
+          ) : (
+            <Tag
+              size={"md"}
+              key={"no"}
+              borderRadius="full"
+              variant="solid"
+              colorScheme="red"
+              p="1"
+            >
+              <TagLabel mx="4" >No</TagLabel>
+            </Tag>
+          )}
+        </>
+      ),
+    },
+    {
+      title: "Tax",
+      dataIndex: "tax",
+    },
+    {
+      title: "Action",
+      key: "action",
+      width: "45px",
+      render: (_, record) => (
+        <HStack>
+          <IconButton
+            aria-label="Search database"
+            onClick={() => {
+              onDeleteClicked(record);
+            }}
+            icon={<DeleteIcon />}
+            size="sm"
+          />
+          <IconButton
+            aria-label="Search database"
+            onClick={() => onUpdateClicked(record)}
+            icon={<EditIcon />}
+            size="sm"
+          />
+        </HStack>
+      ),
+    },
+  ];
