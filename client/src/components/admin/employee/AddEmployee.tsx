@@ -3,7 +3,6 @@ import {
   Divider,
   FormControl,
   FormErrorMessage,
-  FormHelperText,
   FormLabel,
   Grid,
   GridItem,
@@ -45,7 +44,6 @@ const AddEmployee = (props: AddEmployeeProps) => {
     handleSubmit,
     register,
     formState: { errors },
-    getValues,
   } = useForm({
     defaultValues: {
       firstName: defaultData?.firstName,
@@ -61,6 +59,7 @@ const AddEmployee = (props: AddEmployeeProps) => {
       about: defaultData?.about,
     },
   });
+
 
   const prepareData = () => {
     const formattedData = {
@@ -127,7 +126,6 @@ const AddEmployee = (props: AddEmployeeProps) => {
           }
         })
         .catch((error) => {
-          console.log("failed to create")
           setIsModalOpen(false);
           setIsUpdate(false);
         });
@@ -148,7 +146,6 @@ const AddEmployee = (props: AddEmployeeProps) => {
           setIsUpdate(false);
         })
         .catch((error) => {
-          console.log("Failed to update data");
           setIsModalOpen(false);
           setIsUpdate(false);
 
@@ -480,7 +477,7 @@ const AddEmployee = (props: AddEmployeeProps) => {
                       textColor="gray.600"
                       fontWeight={"semibold"}
                     >
-                      About You:
+                      About :
                     </FormLabel>
                     <Textarea
                       placeholder="write short discription about you.."
